@@ -1,6 +1,6 @@
 # Co-Evolution Skills
 
-![Version](https://img.shields.io/badge/version-1.1.0-blue) ![License](https://img.shields.io/badge/license-MIT-green)
+![Version](https://img.shields.io/badge/version-1.4.0-blue) ![License](https://img.shields.io/badge/license-MIT-green)
 
 **Author:** [Yang Liu](https://xueyuhanlang.github.io)
 
@@ -11,6 +11,7 @@ A collection of agent skills for academic research writing and scientific thinki
 - [Background](#background)
 - [Available Skills](#available-skills)
 - [Using `co-evolution-writer`](#using-co-evolution-writer)
+- [Using `co-evolution-idea`](#using-co-evolution-idea)
 - [Using `bib-formatter`](#using-bib-formatter)
 - [Installation](#installation)
 - [Design Philosophy](#design-philosophy)
@@ -22,7 +23,7 @@ A collection of agent skills for academic research writing and scientific thinki
   - [Honest Positioning over Rhetorical Inflation](#honest-positioning-over-rhetorical-inflation)
   - [Teaching as a First-Class Goal](#teaching-as-a-first-class-goal)
   - [Scope](#scope)
-- [Skill Self-Improvement Mode](#skill-self-improvement-mode)
+- [Skill Self-Improvement Mode](#skill-self-improvement-mode-for-advanced-users)
 
 ## Background
 
@@ -36,9 +37,9 @@ Real research quality depends on a researcher's internal model: the ability to d
 
 Most academic AI tools today work in the opposite direction. They draft complete papers, simulate peer review panels, and orchestrate the entire pipeline end to end. The researcher provides a topic; the agent produces output. These tools can be useful for narrow tasks, but they automate exactly the steps where scientific judgment is formed.
 
-This is the gap these skills address. Based on my multi-year research experience and daily use of AI for writing and thinking, I built them to use AI as a genuine co-pilot: a partner that sharpens reasoning rather than replacing it, identifies what is actually wrong before rewriting, and transfers judgment rather than just text.
+This is the gap these skills address. Based on my multi-year research experience and daily use of AI for writing and thinking, I built them to use AI as a genuine co-pilot: a partner that challenges reasoning rather than replacing it, helps identify weaknesses before rewriting, and explains its judgments rather than just producing text.
 
-The name *co-evolution* is deliberate: every interaction should make both the paper and the researcher stronger.
+The name *co-evolution* is deliberate: the aim is to improve the work while helping the researcher develop stronger judgment. That is a design goal, not a guarantee that the agent's advice is correct.
 
 ---
 
@@ -47,20 +48,14 @@ The name *co-evolution* is deliberate: every interaction should make both the pa
 | Skill | Description |
 |-------|-------------|
 | [co-evolution-writer](./co-evolution-writer/) | A senior academic co-writer that sharpens scientific reasoning and paper quality through diagnosis-first critique. |
+| [co-evolution-idea](./co-evolution-idea/) | Helps develop research ideas into testable questions and keeps the reasoning in durable notes. |
 | [bib-formatter](./bib-formatter/) | Cleans and audits BibTeX with conservative edits and explicit revision logs. Preserves syntax, local conventions, and comments. |
 
 ---
 
 ## Using `co-evolution-writer`
 
-Use when you need scientific co-writing support, not just editing. It provides feedback that is honest and sometimes uncomfortable — it will tell you what is actually wrong, not what you want to hear.
-
-**Best for:**
-- abstract/introduction framing
-- contribution calibration
-- method clarity
-- claim–evidence consistency
-- submission-risk diagnosis
+Use when you need scientific co-writing support, not just editing: framing a contribution, explaining a method, planning experiments, checking evidence, or assessing submission readiness. It challenges what may be wrong and explains its reasoning; its advice still needs your judgment.
 
 **Mode guide:**
 
@@ -69,126 +64,76 @@ Use when you need scientific co-writing support, not just editing. It provides f
 | Quick Pass | Local edits with brief warnings |
 | Pure Rewrite | Revised text only, claim scope unchanged |
 | Diagnostic Pass | Medium-depth diagnosis plus targeted edits |
-| Full Co-Evolution Pass | Full hierarchy, risk, and teaching-oriented critique |
+| Full Co-Evolution Pass | Deep assessment focused on the most important findings |
 
 **Recommended prompts:**
 ```text
 Run a Diagnostic Pass on this introduction. Identify the main framing weakness and rewrite only the key paragraph.
 Do a Full Co-Evolution Pass on this draft and prioritize the biggest rejection risk first.
-Pure rewrite only for this paragraph; keep the claim scope unchanged.
+This is an early draft with no results yet. Identify the central hypothesis and the smallest experiment that could distinguish it from a plausible alternative.
 ```
 
 **Recommended workflow and tips:**
-- Start with a **Full Co-Evolution Pass** (even on an incomplete draft). The core issues it surfaces tend to be accurate and uncomfortable — worth sitting with, rethinking, and fixing before moving to rewrites. Use targeted passes afterward to refine writing and sharpen reasoning incrementally.
+- Start with a **Full Co-Evolution Pass** for a broad review, then use targeted passes to refine the draft. Judgments based on missing context remain provisional. In early drafts, use the review to plan evidence, not to treat untested hypotheses as results.
 - **Write the draft yourself first.** Use AI to interact with what you wrote — to identify framing weaknesses, calibrate contribution level, and surface what you may be wrong about. *The draft is yours; the AI is a critic, not a ghostwriter.*
-- **Write related work yourself.** You may use AI to surface references you were unaware of, but write the descriptions and comparisons yourself. Then use AI to validate or debate your understanding of existing work and your positioning against it. Well-written related work — like that in many SIGGRAPH papers — builds field knowledge that stays with you; AI-generated summaries rarely do.
+- **Write related work yourself.** On request, the agent can search for missing work and check central citations against accessible primary sources. Use that help to examine your comparisons, not replace your reading.
+- **Review LaTeX changes in color.** Revised wording is blue; unresolved author checks are red. Ask for clean text to omit revision markup and editorial annotations.
 - **Try it on a published paper.** If you want to calibrate the skill's judgment against your own, run a Full Co-Evolution Pass on a paper you have already published (provide the LaTeX source). Seeing what it finds in work you already know well is instructive.
 
 *Note: This README is itself improved with `co-evolution-writer`.*
+
+Title suggestions, near-final naming checks, and editing conventions are described in the [writer instructions](co-evolution-writer/SKILL.md) and their references.
+
+---
+
+## Using `co-evolution-idea`
+
+Use when you want to work through a rough research idea or preserve useful thinking in a note. It helps clarify the problem, question the key assumption, and find a useful next test without taking over the idea.
+
+Formerly `co-evolution-note`, it retains literature, meeting, experiment, synthesis, and quick-capture notes. Asking to organize a thought does not automatically invite a full critique or research proposal. A thinking conversation need not end in a note.
+
+Your reasoning stays separate from AI suggestions, and uncertainty is preserved rather than polished away. Before creating or changing note files, the agent proposes the structure and location for your approval.
+
+**Recommended prompts:**
+```text
+Turn this AI conversation into a durable research note. Separate verified facts from suggestions that need checking.
+Structure these meeting notes, preserving decisions, rationale, disagreements, and research implications.
+Help me examine the main assumption behind this idea and choose one small test. Do not turn it into a full proposal yet.
+```
 
 ---
 
 ## Using `bib-formatter`
 
-Use when maintaining a `.bib` file for correctness, consistency, and traceability.
+Use for conservative bibliography cleanup: capitalization, venue macros, duplicates, missing links, and incomplete metadata. It preserves comments and local conventions, checks citation usage before removing keys, and records edits in `bibrev.md`.
 
-**Best for:**
-- field normalization and capitalization protection
-- macro-aligned journal/booktitle cleanup
-- duplicate detection and merge decisions
-- missing-link and incomplete-metadata audits
-
-**Working style:**
-- Preserves BibTeX validity, comments, and local conventions
-- Makes the smallest reliable change; does not invent metadata
-- Flags uncertainty explicitly rather than guessing
-- Keeps a human-verifiable revision log (`bibrev.md`)
-
-**Typical use:**
-1. Ask for a conservative cleanup pass.
-2. Review flagged uncertainties and duplicate decisions.
-3. Keep or update `bibrev.md` as a compact audit trail.
+Ask for a cleanup or an audit-only pass, then review uncertain entries and merge decisions. Unlike the two co-evolution skills, this is a focused maintenance tool.
 
 ---
 
 ## Installation
 
-### Option A — GitHub CLI (recommended, requires `gh` v2.90.0+)
+You can ask your AI agent to install the skills:
 
-The `--agent` flag routes the skill to the correct directory for your agent:
+```text
+Install co-evolution-writer, co-evolution-idea, and bib-formatter from
+https://github.com/xueyuhanlang/skills for this agent at user scope.
+Include all supporting files, and ask before replacing existing skills.
+```
+
+Or use a recent GitHub CLI with `gh skill` support:
 
 ```sh
-# GitHub Copilot (default)
-gh skill install xueyuhanlang/skills co-evolution-writer --scope user
-gh skill install xueyuhanlang/skills bib-formatter --scope user
-
-# Claude Code
-gh skill install xueyuhanlang/skills co-evolution-writer --agent claude-code --scope user
-gh skill install xueyuhanlang/skills bib-formatter --agent claude-code --scope user
-
-# Gemini CLI
-gh skill install xueyuhanlang/skills co-evolution-writer --agent gemini --scope user
-gh skill install xueyuhanlang/skills bib-formatter --agent gemini --scope user
-
-# Codex
-gh skill install xueyuhanlang/skills co-evolution-writer --agent codex --scope user
-gh skill install xueyuhanlang/skills bib-formatter --agent codex --scope user
+gh skill install xueyuhanlang/skills --all --scope user
 ```
 
-Or browse interactively:
-```sh
-gh skill install xueyuhanlang/skills
-```
+This installs all three for GitHub Copilot. For another agent, add `--agent claude-code`, `--agent gemini-cli`, or `--agent codex`. To install just one skill, replace `--all` with its name. Update CLI-managed installations with `gh skill update --all`.
 
-### Option B — Manual
+For manual installation, download or clone this repository and copy the complete skill folders into your agent's documented skills directory. Keep supporting files, including the writer's references.
 
-Clone the repo and copy skill folders to your agent's skills directory:
+Reload skills or restart your agent after installation. In Copilot CLI, use `/skills reload` and `/skills info co-evolution-writer` to check. Skills can be selected automatically from your request; you can also invoke them explicitly with `/co-evolution-writer`, `/co-evolution-idea`, or `/bib-formatter` in Copilot CLI.
 
-| Agent | Mac / Linux | Windows |
-|-------|-------------|---------|
-| GitHub Copilot | `~/.copilot/skills/` | `%USERPROFILE%\.copilot\skills\` |
-| Claude Code | `~/.claude/skills/` | `%USERPROFILE%\.claude\skills\` |
-| Gemini CLI | `~/.gemini/skills/` | `%USERPROFILE%\.gemini\skills\` |
-| Universal | `~/.agents/skills/` | `%USERPROFILE%\.agents\skills\` |
-
-**Mac / Linux:**
-```sh
-git clone https://github.com/xueyuhanlang/skills.git
-TARGET_DIR=~/.copilot/skills   # adjust for your agent (see table above)
-cp -r skills/co-evolution-writer $TARGET_DIR/
-cp -r skills/bib-formatter $TARGET_DIR/
-```
-
-**Windows (PowerShell):**
-```powershell
-git clone https://github.com/xueyuhanlang/skills.git
-Copy-Item -Recurse skills\co-evolution-writer "$env:USERPROFILE\.copilot\skills\co-evolution-writer"
-Copy-Item -Recurse skills\bib-formatter "$env:USERPROFILE\.copilot\skills\bib-formatter"
-```
-
-After install, reload inside your agent session — `/skills reload` works for Copilot CLI, Claude Code, and Gemini CLI.
-
-### Verifying Installation
-
-```sh
-/skills info co-evolution-writer
-/skills info bib-formatter
-```
-
-### Invoking Skills
-
-The agent picks up a skill automatically when your prompt matches its purpose. To invoke explicitly:
-
-```sh
-/co-evolution-writer
-/bib-formatter
-```
-
-### Updates
-
-```sh
-gh skill update --all
-```
+If you installed `co-evolution-note` previously, install `co-evolution-idea` and remove or disable the old skill after preserving any local customizations. Updating alone may not remove the old installation.
 
 ---
 
@@ -196,94 +141,57 @@ gh skill update --all
 
 > *Co-evolve the researcher's judgment, not just the manuscript.*
 
+This philosophy guides both `co-evolution-writer` and `co-evolution-idea`. The writer examines a paper's argument and evidence; the idea skill helps develop questions and preserve the reasoning behind them.
+
+Challenge the AI's suggestions—and the guidance in these skills—with the same care you apply to your own claims. Ask what evidence supports a recommendation, whether its assumptions fit your work, and when it should be rejected or revised. Developing that independent judgment is one of the goals of co-evolution, not an obstacle to using AI well.
+
 ### Dual-Level Operation
 
-The skill operates simultaneously at two levels:
+Both skills connect the larger research question to the details that support it:
 
-- **High-level field reasoning** — problem legitimacy, representation assumptions, positioning, real contribution, paper structure, and story clarity.
-- **Low-level technical rigor** — correctness in math, formulation, implementation, and evaluation.
+- **High-level reasoning** — whether the problem matters, what the idea contributes, and how it relates to existing work.
+- **Technical rigor** — whether the assumptions, derivations, observations, and experiments support the interpretation.
 
-Polishing words while preserving weak positioning is a waste of effort. Structure and logic take priority over surface clarity.
+Polished prose or a tidy note should not hide a weak argument.
 
 ### Diagnosis Before Generation
 
-Structural weaknesses are diagnosed before any rewriting begins. Local fixes applied to a broken framing make the paper worse, not better.
-
-The skill asks first:
-- Is the problem real, or constructed from benchmarks and trends?
-- Is the contribution identified correctly, or buried under implementation details?
-- Is the idea → method → evidence chain intact?
-- What is the single change that would most improve this paper?
+Before developing an idea or revising an argument, the agent should understand the purpose and identify the main reasoning gap. Local edits cannot resolve an unsupported conclusion. Pure Rewrite and quick capture remain available when you need a narrow task rather than a discussion.
 
 ### Problem Reality
 
-A benchmark or dataset does not justify a problem. The skill evaluates whether a problem exists outside the paper and is motivated by genuine need — not convenience or trend. Problems with low reality require claim narrowing and honest repositioning, not stronger rhetoric.
+A benchmark or dataset alone does not justify a problem. Both skills question whether a direction addresses a genuine need rather than convenience or trend. Early ideas may need a clearer question; mature papers may need narrower claims, not stronger rhetoric.
 
 ### Priority Override
 
-When one issue dominates paper quality — an invalid problem, incorrect claim, broken mechanism, or missing evidence — everything else is deferred. The skill diagnoses that issue first, with at most one or two secondary notes.
+When one issue dominates—an unclear problem, unsupported claim, hidden assumption, or missing evidence—the agent should concentrate on that issue rather than bury it among minor comments.
 
 This mirrors how strong advisors behave: identify the one thing that matters most, not produce twenty comments.
 
 ### Minimal High-Leverage Intervention
 
-The focus is the smallest intervention that resolves the core issue — the structural problem, not all observable symptoms. What is already working is left alone.
+The focus is the smallest intervention that resolves the core issue: a better test, a clarified assumption, or a targeted edit. What is already working is left alone; a request to organize a note should not become a research proposal.
 
 ### Honest Positioning over Rhetorical Inflation
 
-Contribution claims are calibrated to the evidence, not to the ambition of the framing. Claims that outrun what the method actually shows are corrected. Scientific work should stand on clarity, correctness, and evidence.
+Claims should match the evidence, not the ambition of the framing. A promising idea is not yet a demonstrated contribution, and an AI suggestion is not the researcher's established conclusion. The agent's own critiques need the same discipline.
 
 ### Teaching as a First-Class Goal
 
-When making a strong critique, the skill explains the structural reason, exposes the faulty assumption, and teaches the general principle. Each critique is aimed at both the current draft and the reasoning behind it.
-
-Teaching depth is calibrated:
-- **Structural or repeated issues** → full explanation with a reusable principle.
-- **Local or minor issues** → brief note embedded in revision.
-- **Late-stage polishing** → minimal explanation; focus on iteration speed.
+An explanation or a focused question is useful when it helps the researcher make a better decision next time. Structural and recurring problems deserve more discussion than routine wording changes. Co-evolution does not require a lesson or an interview in every interaction.
 
 ### Scope
 
-This skill is intentionally narrow. It does not handle **reviewer-politics optimization**, **autonomous research pipelines**, **literature retrieval**, or **generic writing assistance** — these are outside co-evolution-writer's own scope.
+These skills are not designed to maximize paper acceptance or tell authors what "Reviewer 2" wants to hear. They should help address valid criticism and challenge unsupported objections, not tailor claims to reviewer preferences or make weak evidence sound convincing.
 
-In practice, agents running this skill may have access to other tools or skills (web search, retrieval, bib-formatter) and can perform those tasks when explicitly instructed. That is fine — but treat them as separate steps. Do the external work, then bring the result back to co-evolution-writer for evaluation: critique the positioning, assess the evidence, check the reasoning. The skill evaluates what you bring to it; it does not conduct research on your behalf.
+The longer-term goal of co-evolution is to develop the researcher's own taste and scientific values: a sense of which questions are worth pursuing, what counts as convincing evidence, and when to revise a belief or narrow a claim. Those judgments should become more independent—not more dependent on approval from an AI or a reviewer.
+
+Neither co-evolution skill is an autonomous research pipeline or a project manager. Literature retrieval is a separate, explicitly requested step; the writer also supports a limited prior-name search near submission. Interpretation, experimental decisions, and final claims remain the researcher's responsibility.
 
 ---
 
 ## Skill Self-Improvement Mode (For Advanced Users)
 
-`co-evolution-writer` includes a built-in mechanism for evolving its own instructions from real usage. This is an advanced feature the author uses to upgrade the skill over time.
+The writer may suggest an improvement note when repeated use or a significant failure reveals a problem with its instructions. Notes are optional, saved only when requested or approved, and never change the skill automatically. The author decides which observations justify a lasting change.
 
-### How It Works
-
-After a meaningful interaction, the skill may produce a **Skill Improvement Note** — written separately from the main response — capturing:
-
-- recurring patterns in what was useful or ineffective;
-- failure modes observed during the interaction;
-- missing instructions that would improve future co-evolution;
-- candidate refinements, classified by stability.
-
-Notes follow the structure defined in `IMPROVEMENT-LOG.md` (a read-only template included in the skill) and are appended to `improvement-notes.md` in the working directory — never written to the core skill directly.
-
-### Trigger Conditions
-
-A note is emitted only if:
-- a pattern repeats across ≥2 interactions, **or**
-- a failure mode significantly impacts output quality, **or**
-- a missing rule leads to incorrect reasoning.
-
-Otherwise it is suppressed — high-quality signal matters more than frequent output.
-
-### Candidate Classifications
-
-| Classification | Meaning |
-|----------------|---------|
-| `local preference` | Specific to the current user or context; not a global rule |
-| `log for repeated observation` | Potentially useful but needs more evidence |
-| `candidate core-skill update` | Recurring, scope-aligned, and justified for promotion |
-
-A candidate update is only proposed if it recurs across multiple interactions, aligns with the co-evolution philosophy, and does not broaden the skill beyond its intended scope.
-
-### The Promotion Cycle
-
-The author reviews accumulated `improvement-notes.md` entries periodically and decides which candidates to promote into `SKILL.md`. This is the loop that has driven the skill from draft to its current state — every promoted change validated through actual co-evolution sessions.
+See the [skill-evolution protocol](co-evolution-writer/references/skill-evolution.md) and [read-only log template](co-evolution-writer/IMPROVEMENT-LOG.md) for the details.

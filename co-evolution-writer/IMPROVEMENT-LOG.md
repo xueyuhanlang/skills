@@ -1,7 +1,7 @@
 # Co-Evolution Writer — Improvement Log
 
 Purpose:
-This file records usage-informed observations about the skill.
+This read-only template structures usage-informed observations about the skill. Record actual entries in a separate, user-approved log.
 It is not part of the core skill.
 Its purpose is to help the author decide which refinements should be promoted into the stable skill.
 
@@ -13,7 +13,7 @@ Its purpose is to help the author decide which refinements should be promoted in
 - Task type: (abstract / intro / method / experiments / full-paper review / framing / rebuttal-style diagnosis)
 - Input scope: (paragraph / section / partial paper / full paper)
 - Interaction pattern: (single-turn / iterative / many revisions)
-- Execution mode used: (Quick Pass / Diagnostic Pass / Full Co-Evolution Pass)
+- Execution mode used: (Quick Pass / Pure Rewrite / Diagnostic Pass / Full Co-Evolution Pass)
 
 ---
 
@@ -58,8 +58,8 @@ Template:
 
 - Proposed change:
 - Type:
-  - local preference
-  - repeated pattern
+  - retain as local preference
+  - log for repeated observation
   - candidate core-skill update
 - Why this helps co-evolution:
 - Why this does NOT broaden the skill improperly:
