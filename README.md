@@ -1,6 +1,10 @@
 # Co-Evolution Skills
 
-![Version](https://img.shields.io/badge/version-1.4.0-blue) ![License](https://img.shields.io/badge/license-MIT-green)
+> **We do not learn to surpass others or AI. We learn to transcend our own limitations and deepen our understanding of the world.**
+>
+> 为学非为争先，乃为拓己之未至，见所未见，知所未知。
+
+![Version](https://img.shields.io/badge/version-1.2.0-blue) ![License](https://img.shields.io/badge/license-MIT-green)
 
 **Author:** [Yang Liu](https://xueyuhanlang.github.io)
 
@@ -127,7 +131,7 @@ Or use a recent GitHub CLI with `gh skill` support:
 gh skill install xueyuhanlang/skills --all --scope user
 ```
 
-This installs all three for GitHub Copilot. For another agent, add `--agent claude-code`, `--agent gemini-cli`, or `--agent codex`. To install just one skill, replace `--all` with its name. Update CLI-managed installations with `gh skill update --all`.
+This installs all three for GitHub Copilot. For another agent, add `--agent claude-code`, `--agent gemini-cli`, or `--agent codex`. To install just one skill, replace `--all` with its name.
 
 For manual installation, download or clone this repository and copy the complete skill folders into your agent's documented skills directory. Keep supporting files, including the writer's references.
 
@@ -135,11 +139,27 @@ Reload skills or restart your agent after installation. In Copilot CLI, use `/sk
 
 If you installed `co-evolution-note` previously, install `co-evolution-idea` and remove or disable the old skill after preserving any local customizations. Updating alone may not remove the old installation.
 
+### Updating
+
+Updates are manual; the skills do not check for new versions during use. For CLI-managed installations:
+
+```sh
+gh skill update --all
+```
+
+This updates all skills managed by `gh`, not just this collection. To try the development branch instead:
+
+```sh
+gh skill install xueyuhanlang/skills --all --scope user --pin dev
+```
+
+Preserve local customizations before updating. For manual installations, pull or download the desired version and copy the complete skill folders again. You can also ask your agent to help update them, then reload skills or restart the session.
+
 ---
 
 ## Design Philosophy
 
-> *Co-evolve the researcher's judgment, not just the manuscript.*
+> *Co-evolve the researcher’s judgment, taste, and capabilities—not just another manuscript.*
 
 This philosophy guides both `co-evolution-writer` and `co-evolution-idea`. The writer examines a paper's argument and evidence; the idea skill helps develop questions and preserve the reasoning behind them.
 
